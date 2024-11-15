@@ -9,7 +9,7 @@
 Summary:   Xwayland
 Name:      xorg-x11-server-Xwayland
 Version:   21.1.3
-Release:   10%{?gitdate:.%{gitdate}git%{shortcommit}}%{?dist}
+Release:   17%{?gitdate:.%{gitdate}git%{shortcommit}}%{?dist}
 
 URL:       http://www.x.org
 %if 0%{?gitdate}
@@ -22,6 +22,7 @@ Patch1: 0001-xwayland-eglstream-Demote-EGLstream-device-warning.patch
 Patch2: 0002-xwayland-glamor-Change-errors-to-verbose-messages.patch
 Patch3: 0003-xwayland-glamor-Log-backend-selected-for-debug.patch
 Patch4: 0004-xwayland-eglstream-Prefer-EGLstream-if-available.patch
+Patch5: 0001-present-Send-a-PresentConfigureNotify-event-for-dest.patch
 
 # CVE-2021-4011
 Patch10001: 0001-record-Fix-out-of-bounds-access-in-SwapCreateRegiste.patch
@@ -57,6 +58,42 @@ Patch10024: 0007-xkb-reset-the-radio_groups-pointer-to-NULL-after-fre.patch
 Patch10025: 0008-Xext-fix-invalid-event-type-mask-in-XTestSwapFakeInp.patch
 # CVE-2023-0494
 Patch10026: 0001-Xi-fix-potential-use-after-free-in-DeepCopyPointerCl.patch
+# CVE-2023-1393
+Patch10027: 0001-composite-Fix-use-after-free-of-the-COW.patch
+# CVE-2023-5367
+Patch10028: 0001-Xi-randr-fix-handling-of-PropModeAppend-Prepend.patch
+# CVE-2023-6478
+Patch10029: 0001-randr-avoid-integer-truncation-in-length-check-of-Pr.patch
+# CVE-2023-6377
+Patch10030: 0001-Xi-allocate-enough-XkbActions-for-our-buttons.patch
+# Fix for CVE-2023-6816, ZDI-CAN-22664, ZDI-CAN-22665
+Patch10031:   0001-dix-allocate-enough-space-for-logical-button-maps.patch
+# Fix for CVE-2024-0229, ZDI-CAN-22678
+Patch10032:   0002-dix-Allocate-sufficient-xEvents-for-our-DeviceStateN.patch
+Patch10033:   0003-dix-fix-DeviceStateNotify-event-calculation.patch
+Patch10034:   0004-Xi-when-creating-a-new-ButtonClass-set-the-number-of.patch
+# Fix for CVE-2024-21885, ZDI-CAN-22744
+Patch10035:   0005-Xi-flush-hierarchy-events-after-adding-removing-mast.patch
+# Fix for CVE-2024-21886, ZDI-CAN-22840
+Patch10036:   0006-Xi-do-not-keep-linked-list-pointer-during-recursion.patch
+Patch10037:   0007-dix-when-disabling-a-master-float-disabled-slaved-de.patch
+# Fix for CVE-2024-0408
+Patch10038:   0008-glx-Call-XACE-hooks-on-the-GLX-buffer.patch
+# Fix for CVE-2024-0409
+Patch10039:   0009-ephyr-xwayland-Use-the-proper-private-key-for-cursor.patch
+# Fix for copy/paste error in previous CVE fix
+Patch10040:  0001-dix-fix-valuator-copy-paste-error-in-the-DeviceState.patch
+# Fix for CVE-2024-31080
+Patch10041:  0002-Xi-ProcXIGetSelectedEvents-needs-to-use-unswapped-le.patch
+# Fix for CVE-2024-31081
+Patch10042:  0003-Xi-ProcXIPassiveGrabDevice-needs-to-use-unswapped-le.patch
+# Fix for CVE-2024-31083, ZDI-CAN-22880
+Patch10043:  0004-render-fix-refcounting-of-glyphs-during-ProcRenderAd.patch
+# Fix for the fix for CVE-2024-31083
+# https://gitlab.freedesktop.org/xorg/xserver/-/issues/1659
+Patch10044: 0001-render-Avoid-possible-double-free-in-ProcRenderAddGl.patch
+# Fix for CVE-2024-9632
+Patch10045: 0001-xkb-Fix-buffer-overflow-in-_XkbSetCompatMap.patch
 
 License:   MIT
 
@@ -164,6 +201,29 @@ rm -Rf $RPM_BUILD_ROOT%{_localstatedir}/lib/xkb
 %{_libdir}/pkgconfig/xwayland.pc
 
 %changelog
+* Wed Oct 30 2024 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-17
+- Fix for CVE-2024-9632 - (RHEL-61995)
+
+* Thu Apr  4 2024 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-16
+- CVE fix for: CVE-2024-31080, CVE-2024-31081, CVE-2024-31083
+
+* Tue Jan 16 2024 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-15
+  Fix for CVE-2023-6816, CVE-2024-0229, CVE-2024-21885, CVE-2024-21886,
+  CVE-2024-0408, CVE-2024-0409
+
+* Wed Dec 13 2023 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-14
+- Fix for CVE-2023-6377, CVE-2023-6478
+
+* Wed Oct 25 2023 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-13
+- Fix for CVE-2023-5367
+
+* Tue Jun 13 2023 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-12
+- Backport fix for a deadlock with DRI3
+  Resolves: rhbz#2212831
+
+* Fri Mar 31 2023 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-11
+- Fix CVE-2023-1393 (#2180298)
+
 * Tue Feb  7 2023 Olivier Fourdan <ofourdan@redhat.com> - 21.1.3-10
 - Fix CVE-2023-0494 (#2166972)
 
